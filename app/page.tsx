@@ -1,4 +1,4 @@
-import { Avatar, Badge, Box, Button, Card, Flex, Grid, Heading, Progress, Separator, Tabs, Text, Theme } from "@radix-ui/themes"
+import { Avatar, Badge, Box, Card, Flex, Grid, Heading, Progress, Separator, Tabs, Text,} from "@radix-ui/themes"
 import styles from "./page.module.css"
 
 const AboutMe = () => {
@@ -195,7 +195,6 @@ const AboutMe = () => {
 
           <Separator orientation="horizontal" my={"7"} size={"4"}/>
 
-          {/* Философия */}
           <Flex direction="column" align="center" gap="2">
             <Text size="7" weight="bold" style={{ textAlign: "center" }}>
               Моя философия
