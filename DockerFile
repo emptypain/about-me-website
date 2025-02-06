@@ -1,0 +1,40 @@
+# Используем официальный образ Node.js (рекомендуется версия 18)
+FROM node:18-alpine AS builder
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем package.json и package-lock.json для установки зависимостей
+COPY package.json package-lock.json ./
+
+# Устанавливаем зависимости (без dev-зависимостей, если нужно)
+RUN npm install --production
+
+# Копируем весь код проекта
+COPY . .
+
+# Собираем Next.js приложение
+RUN npm run build
+
+# Удаляем лишние dev-зависимости (опционально)
+RUN npm prune --production
+
+
+# --- ФИНАЛЬНЫЙ ОБРАЗ ---
+FROM node:18-alpine AS runner
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем только собранное приложение и необходимые файлы
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/next.config.js ./next.config.js
+
+# Указываем порт, который будет использовать контейнер
+EXPOSE 3000
+
+# Запускаем Next.js сервер
+CMD ["npm", "run", "start"]
