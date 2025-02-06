@@ -1,3 +1,5 @@
+"use client"
+
 import { Avatar, Badge, Box, Card, Flex, Grid, Heading, Progress, Separator, Tabs, Text,} from "@radix-ui/themes"
 import styles from "./page.module.css"
 
